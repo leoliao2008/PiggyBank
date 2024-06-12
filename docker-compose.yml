@@ -1,0 +1,11 @@
+version: '3.4'
+
+services:
+  auth_api:
+    image: ${DOCKER_REGISTRY-}piggybankauthenapi
+    build:
+      context: .
+      dockerfile: PiggyBankAuthenApi/Dockerfile
+
+  redis:
+    image: redis

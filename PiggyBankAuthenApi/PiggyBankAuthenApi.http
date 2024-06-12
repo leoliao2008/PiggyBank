@@ -1,0 +1,6 @@
+@PiggyBankAuthenApi_HostAddress = http://localhost:5258
+
+GET {{PiggyBankAuthenApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
