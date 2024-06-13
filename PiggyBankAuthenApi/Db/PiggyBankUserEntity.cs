@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Identity;
-
+﻿
 namespace PiggyBankAuthenApi.Db
 {
-    public class PiggyBankUserEntity:IdentityUser
+    public sealed class PiggyBankUserEntity
     {
-        public string PairedID { get; set; } = string.Empty;
-        public DateTime CreateTime { get; set; }
+        public int Id, PairedId, Gender;
+        public string? UserName, Email, Password, Role, Claims, AvatarUrl, PhoneNumber;
+        public DateTime? CreateDate;
+        public bool IsDeleted;
+
     }
 }

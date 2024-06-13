@@ -7,7 +7,7 @@
     <ProjectGuid>e78cd799-0f36-44b1-a9c5-6699b975aab1</ProjectGuid>
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
     <DockerServiceUrl>{Scheme}://localhost:{ServicePort}</DockerServiceUrl>
-    <DockerServiceName>piggybankwebapp</DockerServiceName>
+    <DockerServiceName>piggybankauthenapi</DockerServiceName>
   </PropertyGroup>
   <ItemGroup>
     <None Include="docker-compose.override.yml">

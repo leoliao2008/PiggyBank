@@ -11,36 +11,36 @@ namespace PiggyBankAuthenApi.Extentions
     {
         public static void AddDbContext(this WebApplicationBuilder builder)
         {
-            builder.Services.AddDbContext<PiggyBankUserDbContext>(opt =>
-            {
-                string sql;
-                if (builder.Environment.IsDevelopment())
-                {
-                    sql = builder.Configuration.GetConnectionString("Develope") ?? throw new Exception("Connection string is not set");
-                }
-                else
-                {
-                    sql = builder.Configuration.GetConnectionString("Production") ?? throw new Exception("Connection string is not set");
-                }
-                opt.UseSqlServer(sql);
-            });
+            //builder.Services.AddDbContext<PiggyBankUserDbContext>(opt =>
+            //{
+            //    string sql;
+            //    if (builder.Environment.IsDevelopment())
+            //    {
+            //        sql = builder.Configuration.GetConnectionString("Develope") ?? throw new Exception("Connection string is not set");
+            //    }
+            //    else
+            //    {
+            //        sql = builder.Configuration.GetConnectionString("Production") ?? throw new Exception("Connection string is not set");
+            //    }
+            //    opt.UseSqlServer(sql);
+            //});
         }
 
         public static void AddIdentityService(this WebApplicationBuilder builder)
         {
-            builder.Services.AddIdentity<PiggyBankUserEntity, IdentityRole>(opt =>
-            {
-                opt.User.RequireUniqueEmail = true;
-                opt.Password.RequireNonAlphanumeric = false;
-                opt.Password.RequireUppercase = false;
-                opt.Password.RequireLowercase = false;
-                opt.Password.RequiredLength = 8;
-                opt.Password.RequiredUniqueChars = 0;
-                opt.Password.RequireDigit = false;
+            //builder.Services.AddIdentity<PiggyBankUserEntity, IdentityRole>(opt =>
+            //{
+            //    opt.User.RequireUniqueEmail = false;
+            //    opt.Password.RequireNonAlphanumeric = false;
+            //    opt.Password.RequireUppercase = false;
+            //    opt.Password.RequireLowercase = false;
+            //    opt.Password.RequiredLength = 8;
+            //    opt.Password.RequiredUniqueChars = 0;
+            //    opt.Password.RequireDigit = false;
 
-            })
-            .AddEntityFrameworkStores<PiggyBankUserDbContext>()
-            .AddApiEndpoints();
+            //})
+            //.AddEntityFrameworkStores<PiggyBankUserDbContext>()
+            //.AddApiEndpoints();
 
         }
 
