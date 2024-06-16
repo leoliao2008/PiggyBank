@@ -2,8 +2,10 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using PiggyBankAuthenApi.Db;
+using PiggyBankAuthenApi.Options;
+using PiggyBankAuthenApi.Services;
 using System.Text;
+using UserContract;
 
 namespace PiggyBankAuthenApi.Extentions
 {
@@ -11,19 +13,15 @@ namespace PiggyBankAuthenApi.Extentions
     {
         public static void AddDbContext(this WebApplicationBuilder builder)
         {
-            //builder.Services.AddDbContext<PiggyBankUserDbContext>(opt =>
-            //{
-            //    string sql;
-            //    if (builder.Environment.IsDevelopment())
-            //    {
-            //        sql = builder.Configuration.GetConnectionString("Develope") ?? throw new Exception("Connection string is not set");
-            //    }
-            //    else
-            //    {
-            //        sql = builder.Configuration.GetConnectionString("Production") ?? throw new Exception("Connection string is not set");
-            //    }
-            //    opt.UseSqlServer(sql);
-            //});
+            builder.Services.Configure<DapperConnectionOptions>(opt =>
+            {
+                opt.ConnectionString = builder.Configuration.GetConnectionString("DefaultConnectionString") ?? throw new Exception("Connection string is not set");
+
+            });
+            builder.Services.AddScoped<DapperConnectionProvider>();
+            builder.Services.AddScoped<UserServiceImp, IUserService>();
+
+
         }
 
         public static void AddIdentityService(this WebApplicationBuilder builder)

@@ -5,20 +5,16 @@ VisualStudioVersion = 17.9.34616.47
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PiggyBankAuthenApi", "PiggyBankAuthenApi\PiggyBankAuthenApi.csproj", "{24DCC524-01D4-4E21-BD84-302D9CAB8434}"
 	ProjectSection(ProjectDependencies) = postProject
-		{3DE9E711-6603-446A-B902-3E68BA13A6FD} = {3DE9E711-6603-446A-B902-3E68BA13A6FD}
-		{9D3A5990-E3AB-4401-B2AA-89A5CF632DAC} = {9D3A5990-E3AB-4401-B2AA-89A5CF632DAC}
+		{0E2A0BDA-1114-4B9E-A88E-EE96C5DC35C7} = {0E2A0BDA-1114-4B9E-A88E-EE96C5DC35C7}
 	EndProjectSection
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{E78CD799-0F36-44B1-A9C5-6699B975AAB1}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommonLib", "CoreLib\CommonLib.csproj", "{3DE9E711-6603-446A-B902-3E68BA13A6FD}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contracts", "ServiceContracts\Contracts.csproj", "{9D3A5990-E3AB-4401-B2AA-89A5CF632DAC}"
-	ProjectSection(ProjectDependencies) = postProject
-		{3DE9E711-6603-446A-B902-3E68BA13A6FD} = {3DE9E711-6603-446A-B902-3E68BA13A6FD}
-	EndProjectSection
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MinimalApiTutorial", "..\MinimalApiTutorial\MinimalApiTutorial.csproj", "{13F3C1E3-5A63-4FA3-9CB2-3E4F7572BDF3}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Contracts", "Contracts\Contracts.csproj", "{0E2A0BDA-1114-4B9E-A88E-EE96C5DC35C7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommonLib", "CommonLib\CommonLib.csproj", "{FDBB95E7-7DA7-4CBC-B3B5-4D8C24323840}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -34,18 +30,18 @@ Global
 		{E78CD799-0F36-44B1-A9C5-6699B975AAB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E78CD799-0F36-44B1-A9C5-6699B975AAB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E78CD799-0F36-44B1-A9C5-6699B975AAB1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3DE9E711-6603-446A-B902-3E68BA13A6FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3DE9E711-6603-446A-B902-3E68BA13A6FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3DE9E711-6603-446A-B902-3E68BA13A6FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3DE9E711-6603-446A-B902-3E68BA13A6FD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9D3A5990-E3AB-4401-B2AA-89A5CF632DAC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9D3A5990-E3AB-4401-B2AA-89A5CF632DAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9D3A5990-E3AB-4401-B2AA-89A5CF632DAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9D3A5990-E3AB-4401-B2AA-89A5CF632DAC}.Release|Any CPU.Build.0 = Release|Any CPU
 		{13F3C1E3-5A63-4FA3-9CB2-3E4F7572BDF3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{13F3C1E3-5A63-4FA3-9CB2-3E4F7572BDF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{13F3C1E3-5A63-4FA3-9CB2-3E4F7572BDF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{13F3C1E3-5A63-4FA3-9CB2-3E4F7572BDF3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0E2A0BDA-1114-4B9E-A88E-EE96C5DC35C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E2A0BDA-1114-4B9E-A88E-EE96C5DC35C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E2A0BDA-1114-4B9E-A88E-EE96C5DC35C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E2A0BDA-1114-4B9E-A88E-EE96C5DC35C7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FDBB95E7-7DA7-4CBC-B3B5-4D8C24323840}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FDBB95E7-7DA7-4CBC-B3B5-4D8C24323840}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FDBB95E7-7DA7-4CBC-B3B5-4D8C24323840}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FDBB95E7-7DA7-4CBC-B3B5-4D8C24323840}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

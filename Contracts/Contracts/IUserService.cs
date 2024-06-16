@@ -1,5 +1,4 @@
-﻿using CommonLib.Models;
-using Contract.Dtos;
+﻿using Contract.Dtos;
 using Responses;
 
 namespace UserContract
