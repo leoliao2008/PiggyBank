@@ -4,25 +4,22 @@ using Microsoft.Extensions.Options;
 
 namespace PiggyBankAuthenApi.Db
 {
-    public class PiggyBankDbContext(IOptionsMonitor<PiggyBankDbConnectionBuilder> opt) : IDbContext
+    public class PiggyBankDbContext(IOptions<PiggyBankDbConnectionBuilder> opt,IUserManager userManager) : IDbContext
     {
 
         public IDbConnectionBuilder GetConnectionBuilder()
         {
-            return opt.CurrentValue;
+            return opt.Value;
         }
 
-        public Task<PiggyBankUserEntity> Insert(UserRegisterRequestDto dto)
+        public Task<PiggyBankUserEntity> Insert(UserRequestDto dto)
         {
-            using (SqlConnection conn = GetConnectionBuilder().GetDbConnection()) { 
-                
-            
-            }
-
-            return null;
+            using SqlConnection conn = GetConnectionBuilder().GetDbConnection();
+            conn.Open();
+            return userManager.CreateUserAsync(conn, dto);
         }
 
-        public Task<UserRegisterResponseDto> QueryByNameAndPassword(string userName, string password)
+        public Task<UserResponseDto> QueryByNameAndPassword(string userName, string password)
         {
             throw new NotImplementedException();
         }

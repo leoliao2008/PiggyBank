@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using PiggyBankAuthenApi.Db;
+using PiggyBankAuthenApi.Jwt;
 using PiggyBankAuthenApi.Services;
 using System.Text;
 using UserContract;
@@ -18,35 +19,42 @@ namespace PiggyBankAuthenApi.Extentions
             {
                 opt.SetConnectionString( builder.Configuration.GetConnectionString("DefaultConnection")!);
             });
-            builder.Services.AddScoped<IUserService, UserServiceImp>();
-
-
+            builder.Services.AddScoped<IUserService, PiggyBankUserService>();
         }
 
-        public static void AddIdentityService(this WebApplicationBuilder builder)
-        {
-            //builder.Services.AddIdentity<PiggyBankUserEntity, IdentityRole>(opt =>
-            //{
-            //    opt.User.RequireUniqueEmail = false;
-            //    opt.Password.RequireNonAlphanumeric = false;
-            //    opt.Password.RequireUppercase = false;
-            //    opt.Password.RequireLowercase = false;
-            //    opt.Password.RequiredLength = 8;
-            //    opt.Password.RequiredUniqueChars = 0;
-            //    opt.Password.RequireDigit = false;
+        //public static void AddIdentityService(this WebApplicationBuilder builder)
+        //{
+        //    builder.Services.AddIdentity<PiggyBankUserEntity, IdentityRole>(opt =>
+        //    {
+        //        opt.User.RequireUniqueEmail = false;
+        //        opt.Password.RequireNonAlphanumeric = false;
+        //        opt.Password.RequireUppercase = false;
+        //        opt.Password.RequireLowercase = false;
+        //        opt.Password.RequiredLength = 8;
+        //        opt.Password.RequiredUniqueChars = 0;
+        //        opt.Password.RequireDigit = false;
 
-            //})
-            //.AddEntityFrameworkStores<PiggyBankUserDbContext>()
-            //.AddApiEndpoints();
+        //    })
+        //    .AddEntityFrameworkStores<PiggyBankUserDbContext>()
+        //    .AddApiEndpoints();
 
-        }
+        //}
 
         public static void AddJwtAuthServices(this WebApplicationBuilder builder)
         {
+            JwtSetup setup = new JwtSetup();
+            builder.Configuration.GetSection("Jwt").Bind(setup);
+
+            builder.Services.AddJwtTokenGenerator(opt => {
+                opt.Issuer = setup.Issuer;
+                opt.Audience = setup.Audience;
+                opt.Key = setup.Key;
+            });
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                             .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, opt =>
                             {
-                                var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:key"] ??
+                                
+                                var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(setup.Key ??
                                     throw new Exception("Jwt key not found!")));
                                 opt.TokenValidationParameters = new TokenValidationParameters
                                 {
@@ -54,8 +62,8 @@ namespace PiggyBankAuthenApi.Extentions
                                     ValidateAudience = true,
                                     ValidateLifetime = true,
                                     ValidateIssuerSigningKey = true,
-                                    ValidIssuer = builder.Configuration["Jwt:Issuer"],
-                                    ValidAudience = builder.Configuration["Jwt:audience"],
+                                    ValidIssuer = setup.Issuer,
+                                    ValidAudience = setup.Audience,
                                     IssuerSigningKey = key
                                 };
                             });

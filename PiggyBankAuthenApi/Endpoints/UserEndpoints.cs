@@ -1,11 +1,23 @@
-﻿namespace PiggyBankAuthenApi.Endpoints
+﻿using Carter;
+using Contract.Dtos;
+using System.Reflection;
+using UserContract;
+
+namespace PiggyBankAuthenApi.Endpoints
 {
-    public static class UserEndpoints
+    public class UserEndpoints: CarterModule
     {
-        public static void Map(this WebApplication app)
-        { 
-                       
+        public UserEndpoints() :base("user"){ 
+            
         }
 
+        public override void AddRoutes(IEndpointRouteBuilder app)
+        {
+            app.MapPost("register", async (UserRequestDto dto, IUserService userService) =>
+            {
+                return await userService.RegisterUser(dto);
+
+            });
+        }
     }
 }

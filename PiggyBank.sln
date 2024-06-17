@@ -6,6 +6,7 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PiggyBankAuthenApi", "PiggyBankAuthenApi\PiggyBankAuthenApi.csproj", "{24DCC524-01D4-4E21-BD84-302D9CAB8434}"
 	ProjectSection(ProjectDependencies) = postProject
 		{0E2A0BDA-1114-4B9E-A88E-EE96C5DC35C7} = {0E2A0BDA-1114-4B9E-A88E-EE96C5DC35C7}
+		{FDBB95E7-7DA7-4CBC-B3B5-4D8C24323840} = {FDBB95E7-7DA7-4CBC-B3B5-4D8C24323840}
 	EndProjectSection
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{E78CD799-0F36-44B1-A9C5-6699B975AAB1}"

@@ -1,14 +1,12 @@
-using PiggyBankAuthenApi.Db;
-using PiggyBankAuthenApi.Endpoints;
+using Carter;
 using PiggyBankAuthenApi.Extentions;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-//builder.Services.ConfigureOptions
+builder.Services.AddCarter();
 builder.AddDbContext();
-builder.AddIdentityService();
 builder.AddJwtAuthServices();
 
 var app = builder.Build();
@@ -22,8 +20,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
+app.MapCarter();
 
-UserEndpoints.Map(app);
 
 app.Run();
 

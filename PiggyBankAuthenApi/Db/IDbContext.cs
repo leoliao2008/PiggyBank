@@ -6,8 +6,8 @@ namespace PiggyBankAuthenApi.Db
     {
         public IDbConnectionBuilder GetConnectionBuilder();
 
-        public Task<PiggyBankUserEntity> Insert(UserRegisterRequestDto dto);
+        public Task<PiggyBankUserEntity> Insert(UserRequestDto dto);
 
-        public Task<UserRegisterResponseDto> QueryByNameAndPassword(string userName, string password);
+        public Task<UserResponseDto> QueryByNameAndPassword(string userName, string password);
     }
 }

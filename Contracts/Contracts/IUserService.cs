@@ -5,6 +5,6 @@ namespace UserContract
 {
     public interface IUserService
     {
-        Task<UserRegisterResponse> RegisterUser(UserRegisterRequestDto user);
+        Task<UserRegisterResponse> RegisterUser(UserRequestDto user);
     }
 }

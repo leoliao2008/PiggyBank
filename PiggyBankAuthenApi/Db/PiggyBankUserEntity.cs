@@ -5,7 +5,7 @@ namespace PiggyBankAuthenApi.Db
     {
         public int Id, PairedId, Gender;
         public string? UserName, Email, Password, Role, Claims, AvatarUrl, PhoneNumber;
-        public DateTime? CreateDate;
+        public DateTime? CreateDate, LastUpdateTime;
         public bool IsDeleted;
 
     }

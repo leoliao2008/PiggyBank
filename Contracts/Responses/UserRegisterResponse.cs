@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace Responses
 {
-    public class UserRegisterResponse: BaseResponse
+    public class UserRegisterResponse:BaseResponse
     {
-        public UserRegisterResponseDto? Content;
+        public UserResponseDto? Content { get; set; }
     }
 }

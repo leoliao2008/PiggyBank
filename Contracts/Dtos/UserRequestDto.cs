@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Contract.Dtos
 {
-    public class UserRegisterRequestDto
+    public class UserRequestDto
     {
         [Required]  
         public string Name { get; set; } = string.Empty;
