@@ -1,19 +1,21 @@
 ﻿using Contract.Dtos;
 using Dapper;
 using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Options;
 using PiggyBankAuthenApi.Extentions;
 
 namespace PiggyBankAuthenApi.Db
 {
-    public class PiggyBankUserMananger : IUserManager
+    public class PiggyBankUserMananger(IOptions<PiggyBankDbConnectionBuilder> opt) : IUserManager
     {
-        public Task<bool> CheckIfUserExistAsync(SqlConnection con, string userName, string? email, string phoneNumber)
+        public Task<bool> CheckIfUserExistAsync(string userName, string? email, string phoneNumber)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<PiggyBankUserEntity> CreateUserAsync(SqlConnection con, UserRequestDto dto)
+        public async Task<PiggyBankUserEntity> CreateUserAsync(UserRequestDto dto)
         {
+            using SqlConnection con = opt.Value.GetDbConnection();
             var entity  = dto.ToUserEntity();
             string cmd = """
                 INSERT INTO "UserTable" (
@@ -54,7 +56,7 @@ namespace PiggyBankAuthenApi.Db
             }
         }
 
-        public Task<PiggyBankUserEntity> FindUserByNameAndPasswordAsync(SqlConnection con, string userName, string hashPw)
+        public Task<PiggyBankUserEntity> FindUserByNameAndPasswordAsync(string userName, string hashPw)
         {
             throw new NotImplementedException();
         }

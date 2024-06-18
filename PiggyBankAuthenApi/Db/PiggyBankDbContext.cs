@@ -1,22 +1,17 @@
 ﻿using Contract.Dtos;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 
 namespace PiggyBankAuthenApi.Db
 {
-    public class PiggyBankDbContext(IOptions<PiggyBankDbConnectionBuilder> opt,IUserManager userManager) : IDbContext
+    public class PiggyBankDbContext(IUserManager userManager) : IDbContext
     {
-
-        public IDbConnectionBuilder GetConnectionBuilder()
-        {
-            return opt.Value;
-        }
 
         public Task<PiggyBankUserEntity> Insert(UserRequestDto dto)
         {
-            using SqlConnection conn = GetConnectionBuilder().GetDbConnection();
-            conn.Open();
-            return userManager.CreateUserAsync(conn, dto);
+          
+            return userManager.CreateUserAsync(dto);
         }
 
         public Task<UserResponseDto> QueryByNameAndPassword(string userName, string password)

@@ -5,10 +5,11 @@ namespace PiggyBankAuthenApi.Db
 {
     public interface IUserManager
     {
-        Task<PiggyBankUserEntity> CreateUserAsync(SqlConnection con, UserRequestDto dto);
+        
+        Task<PiggyBankUserEntity> CreateUserAsync(UserRequestDto dto);
 
-        Task<PiggyBankUserEntity> FindUserByNameAndPasswordAsync(SqlConnection con, string userName, string hashPw);
+        Task<PiggyBankUserEntity> FindUserByNameAndPasswordAsync(string userName, string hashPw);
 
-        Task<bool> CheckIfUserExistAsync(SqlConnection con, string userName,string? email, string phoneNumber);
+        Task<bool> CheckIfUserExistAsync(string userName,string? email, string phoneNumber);
     }
 }

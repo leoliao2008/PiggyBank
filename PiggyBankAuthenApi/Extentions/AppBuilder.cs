@@ -17,7 +17,7 @@ namespace PiggyBankAuthenApi.Extentions
             
             builder.Services.AddDapperDbContext(opt => 
             {
-                opt.SetConnectionString( builder.Configuration.GetConnectionString("DefaultConnection")!);
+                opt.SetConnectionString(builder.Configuration.GetConnectionString("DefaultConnection")!);
             });
             builder.Services.AddScoped<IUserService, PiggyBankUserService>();
         }
