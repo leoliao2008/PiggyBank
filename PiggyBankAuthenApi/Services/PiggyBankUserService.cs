@@ -15,29 +15,23 @@ namespace PiggyBankAuthenApi.Services
         public async Task<UserRegisterResponse> RegisterUser(UserRequestDto user)
         {
             UserRegisterResponse response = new UserRegisterResponse();
-            PiggyBankUserEntity entity = await db.Insert(user);
-            UserResponseDto dto = entity.ToUserResponseDto();
-            dto.Token = tokenGenerator.GenerateJwtToken(entity);
-            response.IsSuccess = true;
-            response.Code = 200;
-            response.Message = "OK";
-            response.Content = dto;
-            //try
-            //{
-            //    PiggyBankUserEntity entity = await db.Insert(user);
-            //    UserResponseDto dto = entity.ToUserResponseDto();
-            //    dto.Token = tokenGenerator.GenerateJwtToken(entity);
-            //    response.IsSuccess = true;
-            //    response.Code = 200;
-            //    response.Message = "OK";
-            //    response.Content = dto;
-            //}
-            //catch (Exception ex) { 
-            //    response.IsSuccess = false;
-            //    response.Code = 400;
-            //    response.Message = ex.Message;
-            //    response.Content = null;
-            //}
+            try
+            {
+                PiggyBankUserEntity entity = await db.Insert(user);
+                UserResponseDto dto = entity.ToUserResponseDto();
+                dto.Token = tokenGenerator.GenerateJwtToken(entity);
+                response.IsSuccess = true;
+                response.Code = 200;
+                response.Message = "OK";
+                response.Content = dto;
+            }
+            catch (Exception ex)
+            {
+                response.IsSuccess = false;
+                response.Code = 400;
+                response.Message = ex.Message;
+                response.Content = null;
+            }
             return await Task.FromResult(response);
 
         }

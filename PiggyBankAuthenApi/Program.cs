@@ -7,6 +7,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddCarter();
 builder.AddDbContext();
+builder.AddUserServics();
 builder.AddJwtAuthServices();
 
 var app = builder.Build();

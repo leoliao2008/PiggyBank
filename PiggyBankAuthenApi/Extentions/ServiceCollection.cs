@@ -1,5 +1,7 @@
 ﻿using PiggyBankAuthenApi.Db;
 using PiggyBankAuthenApi.Jwt;
+using PiggyBankAuthenApi.Services;
+using UserContract;
 
 namespace PiggyBankAuthenApi.Extentions
 {
@@ -17,6 +19,12 @@ namespace PiggyBankAuthenApi.Extentions
         {
             services.Configure<JwtSetup>(opt);
             services.AddScoped<IJwtGenerator, PiggyBankJwtGenerator>();
+            return services;
+        }
+
+        public static IServiceCollection AddUserService(this IServiceCollection services)
+        {
+            services.AddScoped<IUserService, PiggyBankUserService>();
             return services;
         }
     }

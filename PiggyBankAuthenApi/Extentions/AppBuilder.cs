@@ -19,7 +19,11 @@ namespace PiggyBankAuthenApi.Extentions
             {
                 opt.SetConnectionString(builder.Configuration.GetConnectionString("DefaultConnection")!);
             });
-            builder.Services.AddScoped<IUserService, PiggyBankUserService>();
+        }
+
+        public static void AddUserServics(this WebApplicationBuilder builder)
+        {
+            builder.Services.AddUserService();
         }
 
         //public static void AddIdentityService(this WebApplicationBuilder builder)
