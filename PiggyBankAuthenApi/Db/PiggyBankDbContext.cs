@@ -1,7 +1,9 @@
 ﻿using Contract.Dtos;
+using Contracts.Dtos;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using PiggyBankAuthenApi.Extentions;
 
 namespace PiggyBankAuthenApi.Db
 {
@@ -14,9 +16,14 @@ namespace PiggyBankAuthenApi.Db
             return userManager.CreateUserAsync(dto);
         }
 
-        public Task<UserResponseDto> QueryByNameAndPassword(string userName, string password)
+        public async Task<PiggyBankUserEntity> QueryByNameAndPassword(string userName, string password)
         {
-            throw new NotImplementedException();
+            return await userManager.FindUserByNameAndPasswordAsync(userName, password);
+        }
+
+        public async Task<bool> Update(UserUpdateDto dto)
+        {
+            return await userManager.UpdateUser(dto);
         }
     }
 }

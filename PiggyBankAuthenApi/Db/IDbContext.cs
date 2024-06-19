@@ -1,4 +1,5 @@
 ﻿using Contract.Dtos;
+using Contracts.Dtos;
 
 namespace PiggyBankAuthenApi.Db
 {
@@ -6,6 +7,8 @@ namespace PiggyBankAuthenApi.Db
     {
         public Task<PiggyBankUserEntity> Insert(UserRequestDto dto);
 
-        public Task<UserResponseDto> QueryByNameAndPassword(string userName, string password);
+        public Task<PiggyBankUserEntity> QueryByNameAndPassword(string userName, string password);
+
+        public Task<bool> Update(UserUpdateDto dto);
     }
 }
