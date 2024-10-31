@@ -9,8 +9,8 @@ namespace PiggyBankAuthenApi.Endpoints
 {
     public class UserEndpoints: CarterModule
     {
-        public UserEndpoints() :base("user"){ 
-            
+        public UserEndpoints() :base("user"){
+            RequireAuthorization();
         }
 
         public override void AddRoutes(IEndpointRouteBuilder app)
@@ -19,17 +19,17 @@ namespace PiggyBankAuthenApi.Endpoints
             {
                 return await userService.RegisterUser(dto);
 
-            });
+            }).AllowAnonymous();
 
             app.MapPost("login",async (UserLoginRequestDto dto, IUserService userService) => 
             {
                 return await userService.UserLogin(dto);
-            });
+            }).AllowAnonymous();
 
-            app.MapPost("update", async (UserUpdateRequestDto dto, IUserService userService)=>
-            { 
+            app.MapPost("update", async (UserUpdateRequestDto dto, IUserService userService) =>
+            {
                 return await userService.UpdateUser(dto);
-            });
+            }).RequireAuthorization(["CanOnlyUpdateYourOwnData"]);
         }
     }
 }

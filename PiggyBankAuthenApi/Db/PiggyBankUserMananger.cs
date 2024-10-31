@@ -57,7 +57,7 @@ namespace PiggyBankAuthenApi.Db
                 throw new Exception("Invalid Phone Number");
             }
 
-            if (dto.Email != null && !EmailValidator.IsValidEmail(dto.Email))
+            if (!TextUtils.IsEmpty(dto.Email) && !EmailValidator.IsValidEmail(dto.Email!))
             {
                 throw new Exception("Invalid Email");
             }
@@ -146,8 +146,34 @@ namespace PiggyBankAuthenApi.Db
             {
                 throw new Exception("Invalid Email");
             }
+
             using SqlConnection con = CreateConnection();
-            string cmd = """
+            StringBuilder sb = new StringBuilder();
+            sb.Append("""
+                SELECT * FROM "UserTable" 
+                WHERE Id !=@id AND (UserName = @userName OR PhoneNumber = @phoneNumber
+                """);
+            if (!TextUtils.IsEmpty(dto.Email))
+            {
+                sb.Append(" OR Email = @email");
+            }
+            sb.Append(");");
+
+            string cmd = sb.ToString();
+            PiggyBankUserEntity? entity =  await con.QueryFirstOrDefaultAsync<PiggyBankUserEntity>(
+                    cmd, new
+                    {
+                        userName = dto.Name,
+                        phoneNumber = dto.PhoneNumber,
+                        email = dto.Email,
+                        id = dto.Id
+                    }
+                );
+            if (entity != null) {
+                throw new Exception("Update Fails: Phone Number or User Name or Email Already Taken by Other Users");
+            }
+
+             cmd = """
                    UPDATE "UserTable" 
                    SET UserName =@userName,
                        PhoneNumber =@phoneNumber,
@@ -159,8 +185,7 @@ namespace PiggyBankAuthenApi.Db
                        Id =@id AND IsDeleted=0
                 """;
             int rowsEffected = await con.ExecuteAsync(
-                cmd,
-                new
+                cmd, new
                 {
                     userName = dto.Name,
                     phoneNumber = dto.PhoneNumber,
