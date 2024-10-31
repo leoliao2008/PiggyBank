@@ -10,18 +10,18 @@ namespace PiggyBankAuthenApi.Db
     public class PiggyBankDbContext(IUserManager userManager) : IDbContext
     {
 
-        public Task<PiggyBankUserEntity> Insert(UserRequestDto dto)
+        public async Task<PiggyBankUserEntity> Insert(UserRegisterRequestDto dto)
         {
           
-            return userManager.CreateUserAsync(dto);
+            return await userManager.CreateUserAsync(dto);
         }
 
-        public async Task<PiggyBankUserEntity> QueryByNameAndPassword(string userName, string password)
+        public async Task<PiggyBankUserEntity> GetUserByNameAndPasswordAsync(string name, string password)
         {
-            return await userManager.FindUserByNameAndPasswordAsync(userName, password);
+            return await userManager.FindUserByNameAndPasswordAsync(name,password);
         }
 
-        public async Task<bool> Update(UserUpdateDto dto)
+        public async Task<bool> Update(UserUpdateRequestDto dto)
         {
             return await userManager.UpdateUser(dto);
         }

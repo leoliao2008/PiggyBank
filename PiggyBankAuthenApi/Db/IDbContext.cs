@@ -5,10 +5,10 @@ namespace PiggyBankAuthenApi.Db
 {
     public interface IDbContext
     {
-        public Task<PiggyBankUserEntity> Insert(UserRequestDto dto);
+        public Task<PiggyBankUserEntity> Insert(UserRegisterRequestDto dto);
 
-        public Task<PiggyBankUserEntity> QueryByNameAndPassword(string userName, string password);
+        public Task<PiggyBankUserEntity> GetUserByNameAndPasswordAsync(string name, string pw);
 
-        public Task<bool> Update(UserUpdateDto dto);
+        public Task<bool> Update(UserUpdateRequestDto dto);
     }
 }

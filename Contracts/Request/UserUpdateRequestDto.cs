@@ -1,4 +1,5 @@
 ﻿using Contract.Dtos;
+using Contracts.Request;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -8,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace Contracts.Dtos
 {
-    public class UserUpdateDto : UserRequestDto
+    public class UserUpdateRequestDto: BaseUserRequestDto
     {
-        [Required]
         public int Id { get; set; }
+
     }
 }

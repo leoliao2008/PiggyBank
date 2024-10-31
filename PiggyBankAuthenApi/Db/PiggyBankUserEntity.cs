@@ -4,12 +4,9 @@ namespace PiggyBankAuthenApi.Db
     public class PiggyBankUserEntity
     {
         
-        //public int Id, PairedId, Gender;
-        //public string? UserName, Email, Password, Role, Claims, AvatarUrl, PhoneNumber;
-        //public DateTime? CreateDate, LastUpdateTime;
-        //public bool IsDeleted;
         public int Id { get; set; }
-        public int PairedId { get; set; }
+
+        public int PairedGroupId { get; set; }
         public int Gender { get; set; }
 
         public string? UserName { get; set; }
@@ -18,8 +15,6 @@ namespace PiggyBankAuthenApi.Db
         public string? Password { get; set; }
 
         public string? Role { get; set; }
-
-        public string? Claims { get; set; }
 
         public string? AvatarUrl { get; set; }
 

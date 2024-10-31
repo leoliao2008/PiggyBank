@@ -5,7 +5,7 @@ using UserContract;
 
 namespace PiggyBankAuthenApi.Extentions
 {
-    public static class ServiceCollection
+    public static class ServiceCollectionExt
     {
         public static IServiceCollection AddDapperDbContext(this IServiceCollection services, Action<IDbConnectionBuilder> opt)
         {

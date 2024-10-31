@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace Contracts.Dtos
 {
-    public class UserLoginDto
+    public class UserLoginRequestDto
     {
         [Required]
-        public string? Name { get; set; } 
+        public string Name { get; set; } = String.Empty;
 
         [Required]
-        public string? Password { get; set; }
+        public string Password { get; set; } = String.Empty;
     }
 }

@@ -7,12 +7,12 @@ namespace PiggyBankAuthenApi.Db
     public interface IUserManager
     {
         
-        Task<PiggyBankUserEntity> CreateUserAsync(UserRequestDto dto);
+        Task<PiggyBankUserEntity> CreateUserAsync(UserRegisterRequestDto dto);
 
         Task<PiggyBankUserEntity> FindUserByNameAndPasswordAsync(string userName, string hashPw);
 
         Task<bool> CheckIfUserExistAsync(string userName,string? email, string phoneNumber);
 
-        Task<bool> UpdateUser(UserUpdateDto dto);
+        Task<bool> UpdateUser(UserUpdateRequestDto dto);
     }
 }

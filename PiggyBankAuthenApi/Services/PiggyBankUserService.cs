@@ -1,76 +1,73 @@
 ﻿using CommonLib.Utils;
 using Contract.Dtos;
 using Contracts.Dtos;
-using Microsoft.AspNetCore.Identity;
+using Contracts.Responses;
+using Contracts.Responses.Dtos;
 using PiggyBankAuthenApi.Db;
 using PiggyBankAuthenApi.Extentions;
 using PiggyBankAuthenApi.Jwt;
 using Responses;
-using System.Text.Json.Serialization;
 using UserContract;
-using static Dapper.SqlMapper;
 
 namespace PiggyBankAuthenApi.Services
 {
     public class PiggyBankUserService(IDbContext db, IJwtGenerator tokenGenerator, ILogger<PiggyBankUserService> logger) : IUserService
     {
 
-        public async Task<UserRegisterResponse> RegisterUser(UserRequestDto user)
+        public async Task<UserRegisterResponse> RegisterUser(UserRegisterRequestDto user)
         {
             UserRegisterResponse response = new UserRegisterResponse();
             try
             {
                 PiggyBankUserEntity entity = await db.Insert(user);
-                UserResponseDto dto = entity.ToUserResponseDto();
-                dto.Token = tokenGenerator.GenerateJwtToken(entity);
+                BaseUserInfoResponseData dto = entity.ToBaseUserInfoResponseData();
                 response.IsSuccess = true;
                 response.Code = 200;
                 response.Message = "OK";
-                response.Content = dto;
+                response.Data = dto;
             }
             catch (Exception ex)
             {
                 response.IsSuccess = false;
                 response.Code = 400;
                 response.Message = ex.Message;
-                response.Content = null;
+                response.Data = null;
             }
             return response;
 
         }
 
-        public async Task<UserRegisterResponse> UserLogin(string userName, string pw)
+        public async Task<UserLoginResponse> UserLogin(UserLoginRequestDto req)
         {
-            UserRegisterResponse response = new UserRegisterResponse();
+            UserLoginResponse response = new UserLoginResponse();
             try
             {
-                PiggyBankUserEntity entity = await db.QueryByNameAndPassword(userName, CrytographyUtils.HashPassword(pw));
-                UserResponseDto dto = entity.ToUserResponseDto();
-                dto.Token = tokenGenerator.GenerateJwtToken(entity);
+                PiggyBankUserEntity entity = await db.GetUserByNameAndPasswordAsync(req.Name, req.Password);
+                UserLoginResponseData dto = entity.ToUserLoginResponseData(tokenGenerator);
                 response.IsSuccess = true;
                 response.Code = 200;
                 response.Message = "OK";
-                response.Content = dto;
+                response.Data = dto;
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 response.IsSuccess = false;
                 response.Code = 400;
                 response.Message = ex.Message;
-                response.Content = null;
+                response.Data = null;
             }
             return response;
         }
 
-        public async Task<BaseResponse> UpdateUser(UserUpdateDto user)
+        public async Task<BaseResponse> UpdateUser(UserUpdateRequestDto user)
         {
             BaseResponse response = new BaseResponse();
             bool success = false;
-            try 
+            try
             {
                 success = await db.Update(user);
-            } 
-            catch (Exception ex) 
+            }
+            catch (Exception ex)
             {
                 response.Message = ex.Message;
                 logger.LogError(ex.Message);
@@ -82,11 +79,12 @@ namespace PiggyBankAuthenApi.Services
                 response.Code = 200;
                 response.Message = "OK";
             }
-            else 
+            else
             {
                 response.IsSuccess = false;
                 response.Code = 400;
-                if (TextUtils.IsEmpty(response.Message)) {
+                if (TextUtils.IsEmpty(response.Message))
+                {
                     response.Message = "Update Fail";
                 }
             }

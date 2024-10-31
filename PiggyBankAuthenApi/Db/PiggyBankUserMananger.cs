@@ -2,14 +2,9 @@
 using Contract.Dtos;
 using Contracts.Dtos;
 using Dapper;
-using FluentValidation.Validators;
-using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Options;
 using PiggyBankAuthenApi.Extentions;
-using System.Data;
-using System.Reflection;
-using System.Security.Claims;
 using System.Text;
 
 namespace PiggyBankAuthenApi.Db
@@ -24,7 +19,8 @@ namespace PiggyBankAuthenApi.Db
                 SELECT * FROM "UserTable" 
                 WHERE UserName = @userName OR PhoneNumber = @phoneNumber
                 """);
-            if (email != string.Empty || email != null) {
+            if (email != string.Empty || email != null)
+            {
                 sb.Append(" OR Email = @email");
             }
             sb.Append(";");
@@ -39,27 +35,41 @@ namespace PiggyBankAuthenApi.Db
             }
         }
 
-        private SqlConnection CreateConnection() { 
+        private SqlConnection CreateConnection()
+        {
             return opt.Value.GetDbConnection();
         }
 
-        public async Task<PiggyBankUserEntity> CreateUserAsync(UserRequestDto dto)
+        public async Task<PiggyBankUserEntity> CreateUserAsync(UserRegisterRequestDto dto)
         {
-            if (!PhoneNumberValidator.IsValidPhoneNumber(dto.PhoneNumber!)) {
+            if (TextUtils.IsEmpty(dto.Name))
+            {
+                throw new Exception("User Name Cannot Be Empty");
+            }
+
+            if (TextUtils.IsEmpty(dto.Password))
+            {
+                throw new Exception("Password Cannot Be Empty");
+            }
+
+            if (!PhoneNumberValidator.IsValidPhoneNumber(dto.PhoneNumber!))
+            {
                 throw new Exception("Invalid Phone Number");
             }
 
-            if (dto.Email != null && !EmailValidator.IsValidEmail(dto.Email)) { 
+            if (dto.Email != null && !EmailValidator.IsValidEmail(dto.Email))
+            {
                 throw new Exception("Invalid Email");
             }
 
 
-            if (await CheckIfUserExistAsync(dto.Name,dto.Email,dto.PhoneNumber!)) {
+            if (await CheckIfUserExistAsync(dto.Name, dto.Email, dto.PhoneNumber!))
+            {
                 throw new Exception("User Already Exist");
             }
 
             using SqlConnection con = CreateConnection();
-            var entity  = dto.ToUserEntity();
+            var entity = dto.ToUserEntity();
             string cmd = """
                 INSERT INTO "UserTable" (
                     UserName, 
@@ -68,9 +78,8 @@ namespace PiggyBankAuthenApi.Db
                     Gender, 
                     Password, 
                     CreateDate, 
-                    PairedId, 
+                    PairedGroupId, 
                     Role, 
-                    Claims,
                     AvatarUrl,
                     IsDeleted,
                     LastUpdateTime
@@ -82,38 +91,43 @@ namespace PiggyBankAuthenApi.Db
                     @Gender, 
                     @Password, 
                     @CreateDate, 
-                    @PairedId, 
+                    @PairedGroupId, 
                     @Role, 
-                    @Claims,
                     @AvatarUrl,
                     @IsDeleted,
                     @LastUpdateTime
                     );
                 """;
-            int rowsEffected = await con.ExecuteAsync( cmd, entity);
+            int rowsEffected = await con.ExecuteAsync(cmd, entity);
             if (rowsEffected == 1)
             {
+                entity = await FindUserByNameAndPasswordAsync(dto.Name, dto.Password!);
                 return entity;
             }
-            else 
+            else
             {
                 throw new Exception("Create user failed");
             }
         }
 
-        public async Task<PiggyBankUserEntity> FindUserByNameAndPasswordAsync(string userName, string hashPw)
+        public async Task<PiggyBankUserEntity> FindUserByNameAndPasswordAsync(string userName, string pw)
         {
-            if (TextUtils.IsEmpty(userName) || TextUtils.IsEmpty(hashPw)) {
+            if (TextUtils.IsEmpty(userName) || TextUtils.IsEmpty(pw))
+            {
                 throw new Exception("Incorrect Username or Password");
             }
             string cmd = """
-                    SELECT * FROM "UserTable" WHERE UserName=@userName AND Password=@hashPw AND IsDeleted=0
+                    SELECT * FROM "UserTable" WHERE UserName=@userName AND Password=@pw
                 """;
-            using SqlConnection con =  CreateConnection();
-            PiggyBankUserEntity? entity = await con.QueryFirstOrDefaultAsync<PiggyBankUserEntity>(cmd, new { userName, hashPw });
-            if (entity == null) 
+            using SqlConnection con = CreateConnection();
+            PiggyBankUserEntity? entity = await con.QueryFirstOrDefaultAsync<PiggyBankUserEntity>(cmd, new { userName, pw });
+            if (entity == null)
             {
-                throw new Exception("Incorrect Username or Password");    
+                throw new Exception("Incorrect Username or Password");
+            }
+            else if (entity.IsDeleted)
+            {
+                throw new Exception("User is in Deactivated State");
             }
             else
             {
@@ -121,7 +135,7 @@ namespace PiggyBankAuthenApi.Db
             }
         }
 
-        public async Task<bool> UpdateUser(UserUpdateDto dto)
+        public async Task<bool> UpdateUser(UserUpdateRequestDto dto)
         {
             if (!PhoneNumberValidator.IsValidPhoneNumber(dto.PhoneNumber!))
             {
@@ -139,25 +153,24 @@ namespace PiggyBankAuthenApi.Db
                        PhoneNumber =@phoneNumber,
                        Email =@email,
                        Gender =@gender,
-                       Password =@password,
                        AvatarUrl =@avatarUrl,
                        LastUpdateTime =@lastUpdateTime
                    WHERE 
-                       Id =@id;
+                       Id =@id AND IsDeleted=0
                 """;
-            int rowsEffected =  await con.ExecuteAsync(
+            int rowsEffected = await con.ExecuteAsync(
                 cmd,
-                new {
+                new
+                {
                     userName = dto.Name,
                     phoneNumber = dto.PhoneNumber,
                     email = dto.Email,
                     gender = dto.Gender,
-                    password = dto.Password,
                     avatarUrl = dto.AvatarUrl,
                     lastUpdateTime = DateTime.UtcNow,
                     id = dto.Id
                 });
-            return rowsEffected > 0;     
+            return rowsEffected > 0;
         }
     }
 }

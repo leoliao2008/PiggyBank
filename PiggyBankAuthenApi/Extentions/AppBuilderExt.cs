@@ -10,7 +10,7 @@ using UserContract;
 
 namespace PiggyBankAuthenApi.Extentions
 {
-    public static class AppBuilder
+    public static class AppBuilderExt
     {
         public static void AddDbContext(this WebApplicationBuilder builder)
         {

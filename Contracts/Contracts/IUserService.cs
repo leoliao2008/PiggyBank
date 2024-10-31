@@ -1,16 +1,17 @@
 ﻿using Contract.Dtos;
 using Contracts.Dtos;
+using Contracts.Responses;
 using Responses;
 
 namespace UserContract
 {
     public interface IUserService
     {
-        Task<UserRegisterResponse> RegisterUser(UserRequestDto user);
+        Task<UserRegisterResponse> RegisterUser(UserRegisterRequestDto req);
 
-        Task<UserRegisterResponse> UserLogin(string userName, string pw);
+        Task<UserLoginResponse> UserLogin(UserLoginRequestDto req);
 
-        Task<BaseResponse> UpdateUser(UserUpdateDto user);
+        Task<BaseResponse> UpdateUser(UserUpdateRequestDto req);
 
 
     }

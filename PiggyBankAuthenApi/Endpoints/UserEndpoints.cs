@@ -15,18 +15,18 @@ namespace PiggyBankAuthenApi.Endpoints
 
         public override void AddRoutes(IEndpointRouteBuilder app)
         {
-            app.MapPost("register", async (UserRequestDto dto, IUserService userService) =>
+            app.MapPost("register", async (UserRegisterRequestDto dto, IUserService userService) =>
             {
                 return await userService.RegisterUser(dto);
 
             });
 
-            app.MapPost("login",async (UserLoginDto dto, IUserService userService) => 
+            app.MapPost("login",async (UserLoginRequestDto dto, IUserService userService) => 
             {
-                return await userService.UserLogin(dto.Name!,dto.Password!);
+                return await userService.UserLogin(dto);
             });
 
-            app.MapPost("update", async (UserUpdateDto dto, IUserService userService)=>
+            app.MapPost("update", async (UserUpdateRequestDto dto, IUserService userService)=>
             { 
                 return await userService.UpdateUser(dto);
             });
