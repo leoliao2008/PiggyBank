@@ -29,7 +29,7 @@ namespace PiggyBankAuthenApi.Endpoints
             app.MapPost("update", async (UserUpdateRequestDto dto, IUserService userService) =>
             {
                 return await userService.UpdateUser(dto);
-            }).RequireAuthorization(["CanOnlyUpdateYourOwnData"]);
+            });
         }
     }
 }

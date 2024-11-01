@@ -42,7 +42,7 @@ namespace PiggyBankAuthenApi.Extentions
             {
 
                 var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(setup.Key ??throw new Exception("Jwt key not found!")));
-                opt.RequireHttpsMetadata = true;
+                opt.RequireHttpsMetadata = false;
                 opt.SaveToken = true;
                 opt.TokenValidationParameters = new TokenValidationParameters
                 {
@@ -55,10 +55,10 @@ namespace PiggyBankAuthenApi.Extentions
                     IssuerSigningKey = key
                 };
                 //this is the handler for jwt authentication
-                opt.Events = new JwtBearerEvents()
-                {
+                //opt.Events = new JwtBearerEvents()
+                //{
 
-                };
+                //};
             });
             builder.Services.AddAuthorizationPolicyEvaluator();
             builder.Services.AddAuthorization();
