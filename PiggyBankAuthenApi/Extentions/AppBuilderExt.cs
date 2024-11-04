@@ -60,7 +60,6 @@ namespace PiggyBankAuthenApi.Extentions
 
                 //};
             });
-            builder.Services.AddAuthorizationPolicyEvaluator();
             builder.Services.AddAuthorization();
         }
     }
