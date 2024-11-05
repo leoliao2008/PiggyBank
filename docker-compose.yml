@@ -1,10 +1,6 @@
-version: '3.4'
-
 services:
   piggybankauthenapi:
     build:
       context: .
       dockerfile: ./Dockerfile
 
-  redis:
-    image: redis
