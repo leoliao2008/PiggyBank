@@ -4,10 +4,10 @@ FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 
 # Install krb5 libraries  
 RUN apt-get update && apt-get install -y \
-    krb5-user \
-    libkrb5-dev \
+    #krb5-user \
+    #libkrb5-dev \
     libgssapi-krb5-2 \
-    && rm -rf /var/lib/apt/lists/* 
+    #&& rm -rf /var/lib/apt/lists/* 
 
 WORKDIR /app
 USER app
@@ -15,8 +15,6 @@ EXPOSE 8080
 EXPOSE 8081
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
-
-
 
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
