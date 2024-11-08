@@ -3,11 +3,15 @@
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 
 # Install krb5 libraries  
-RUN apt-get update && apt-get install -y \
+#RUN apt-get update && apt-get install -y \
     #krb5-user \
     #libkrb5-dev \
-    libgssapi-krb5-2 \
+    #libgssapi-krb5-2 \
     #&& rm -rf /var/lib/apt/lists/* 
+
+RUN apt-get update && apt-get install -y \
+    libgssapi-krb5-2 \
+    && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 USER app
