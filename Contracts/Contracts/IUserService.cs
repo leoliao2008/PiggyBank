@@ -7,7 +7,7 @@ namespace UserContract
 {
     public interface IUserService
     {
-        Task<UserRegisterResponse> RegisterUser(UserRegisterRequestDto req);
+        Task<UserLoginResponse> RegisterUser(UserRegisterRequestDto req);
 
         Task<UserLoginResponse> UserLogin(UserLoginRequestDto req);
 

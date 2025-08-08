@@ -15,13 +15,13 @@ namespace PiggyBankAuthenApi.Services
     public class PiggyBankUserService(IDbContext db, IJwtGenerator tokenGenerator, ILogger<PiggyBankUserService> logger) : IUserService
     {
 
-        public async Task<UserRegisterResponse> RegisterUser(UserRegisterRequestDto user)
+        public async Task<UserLoginResponse> RegisterUser(UserRegisterRequestDto user)
         {
-            UserRegisterResponse response = new UserRegisterResponse();
+            UserLoginResponse response = new UserLoginResponse();
             try
             {
                 PiggyBankUserEntity entity = await db.Insert(user);
-                BaseUserInfoResponseData dto = entity.ToBaseUserInfoResponseData();
+                UserLoginResponseData dto = entity.ToUserLoginResponseData(tokenGenerator);
                 response.IsSuccess = true;
                 response.Code = 200;
                 response.Message = "OK";
