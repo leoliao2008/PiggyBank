@@ -14,5 +14,11 @@ namespace PiggyBankAuthenApi.Db
         Task<bool> CheckIfUserExistAsync(string userName,string? email, string phoneNumber);
 
         Task<bool> UpdateUser(UserUpdateRequestDto dto);
+
+        Task<bool> checkIfNameExsit(string name);
+
+        Task<bool> checkIfCellphoneExsit(string phone);
+
+        Task<bool> checkIfEmailExsit(string email);
     }
 }

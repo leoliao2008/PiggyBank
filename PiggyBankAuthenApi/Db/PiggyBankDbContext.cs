@@ -25,5 +25,20 @@ namespace PiggyBankAuthenApi.Db
         {
             return await userManager.UpdateUser(dto);
         }
+
+        public async Task<bool> checkIfNameExist(string name)
+        {
+            return await userManager.checkIfNameExsit(name);
+        }
+
+        public async Task<bool> checkIfCellphoneExist(string cellphone)
+        {
+            return await userManager.checkIfCellphoneExsit(cellphone);
+        }
+
+        public async Task<bool> checkIfEmailExist(string email)
+        {
+            return await userManager.checkIfEmailExsit(email);
+        }
     }
 }

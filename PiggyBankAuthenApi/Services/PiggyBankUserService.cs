@@ -92,5 +92,61 @@ namespace PiggyBankAuthenApi.Services
 
             return response;
         }
+
+        public async Task<BaseResponse> CheckIfNameExist(string name)
+        {
+            BaseResponse response = new BaseResponse();
+            if (await db.checkIfNameExist(name))
+            {
+                response.IsSuccess = false;
+                response.Code = 501;
+                response.Message = "User Name Exist.";
+            }
+            else { 
+                response.IsSuccess = true;
+                response.Code = 200;  
+                response.Message = "OK";
+            }
+
+            return response;
+        }
+
+        public async Task<BaseResponse> CheckIfEmailExist(string email)
+        {
+            BaseResponse response = new BaseResponse();
+            if (await db.checkIfEmailExist(email))
+            {
+                response.IsSuccess = false;
+                response.Code = 501;
+                response.Message = "Email Exist.";
+            }
+            else
+            {
+                response.IsSuccess = true;
+                response.Code = 200;
+                response.Message = "OK";
+            }
+
+            return response;
+        }
+
+        public async Task<BaseResponse> CheckIfCellphoneExist(string cellphone)
+        {
+            BaseResponse response = new BaseResponse();
+            if (await db.checkIfCellphoneExist(cellphone))
+            {
+                response.IsSuccess = false;
+                response.Code = 501;
+                response.Message = "Cellphone Exist.";
+            }
+            else
+            {
+                response.IsSuccess = true;
+                response.Code = 200;
+                response.Message = "OK";
+            }
+
+            return response;
+        }
     }
 }

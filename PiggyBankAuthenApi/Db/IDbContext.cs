@@ -10,5 +10,11 @@ namespace PiggyBankAuthenApi.Db
         public Task<PiggyBankUserEntity> GetUserByNameAndPasswordAsync(string name, string pw);
 
         public Task<bool> Update(UserUpdateRequestDto dto);
+
+        public Task<bool> checkIfNameExist(string name);
+
+        public Task<bool> checkIfCellphoneExist(string cellphone);
+
+        public Task<bool> checkIfEmailExist(string email);
     }
 }

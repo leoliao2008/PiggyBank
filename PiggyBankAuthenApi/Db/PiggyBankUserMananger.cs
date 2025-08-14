@@ -5,6 +5,7 @@ using Dapper;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Options;
 using PiggyBankAuthenApi.Extentions;
+using System.Numerics;
 using System.Text;
 
 namespace PiggyBankAuthenApi.Db
@@ -196,6 +197,63 @@ namespace PiggyBankAuthenApi.Db
                     id = dto.Id
                 });
             return rowsEffected > 0;
+        }
+
+        public async Task<bool> checkIfNameExsit(string name)
+        {
+            using SqlConnection con = CreateConnection();
+            StringBuilder sb = new StringBuilder();
+            sb.Append("""
+                SELECT * FROM "UserTable" 
+                WHERE UserName = @name ;
+                """);
+            PiggyBankUserEntity? result = await con.QueryFirstOrDefaultAsync<PiggyBankUserEntity>(sb.ToString(), new {name});
+            if (result != null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public async Task<bool> checkIfCellphoneExsit(string phone)
+        {
+            using SqlConnection con = CreateConnection();
+            StringBuilder sb = new StringBuilder();
+            sb.Append("""
+                SELECT * FROM "UserTable" 
+                WHERE PhoneNumber = @phone ;
+                """);
+            PiggyBankUserEntity? result = await con.QueryFirstOrDefaultAsync<PiggyBankUserEntity>(sb.ToString(), new { phone });
+            if (result != null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public async Task<bool> checkIfEmailExsit(string email)
+        {
+            using SqlConnection con = CreateConnection();
+            StringBuilder sb = new StringBuilder();
+            sb.Append("""
+                SELECT * FROM "UserTable" 
+                WHERE Email = @email ;
+                """);
+            PiggyBankUserEntity? result = await con.QueryFirstOrDefaultAsync<PiggyBankUserEntity>(sb.ToString(), new { email });
+            if (result != null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }

@@ -13,6 +13,12 @@ namespace UserContract
 
         Task<BaseResponse> UpdateUser(UserUpdateRequestDto req);
 
+        Task<BaseResponse> CheckIfNameExist(string name);
+
+        Task<BaseResponse> CheckIfEmailExist(string email);
+
+        Task<BaseResponse> CheckIfCellphoneExist(string cellphone);
+
 
     }
 

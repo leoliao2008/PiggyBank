@@ -1,4 +1,5 @@
-﻿using Carter;
+﻿using Azure.Core;
+using Carter;
 using Contract.Dtos;
 using Contracts.Dtos;
 using Microsoft.AspNetCore.Http.HttpResults;
@@ -36,6 +37,18 @@ namespace PiggyBankAuthenApi.Endpoints
             {
                 return await userService.UpdateUser(dto);
             }).RequireAuthorization();
+
+            app.MapGet("checkIfNameExist/{name}", async (string name, IUserService userService) => {
+                return await userService.CheckIfNameExist(name);
+            });
+
+            app.MapGet("checkIfCellphoneExist/{phone}", async (string phone, IUserService userService) => {
+                return await userService.CheckIfCellphoneExist(phone);
+            });
+
+            app.MapGet("checkIfEmailExist/{email}", async (string email, IUserService userService) => {
+                return await userService.CheckIfEmailExist(email);
+            });
 
         }
     }
