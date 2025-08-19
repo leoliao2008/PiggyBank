@@ -1,5 +1,6 @@
 ﻿using Contract.Dtos;
 using Contracts.Dtos;
+using Contracts.Request;
 using Contracts.Responses;
 using Responses;
 
@@ -18,6 +19,8 @@ namespace UserContract
         Task<BaseResponse> CheckIfEmailExist(string email);
 
         Task<BaseResponse> CheckIfCellphoneExist(string cellphone);
+
+        Task<InsertTransferRecordResponse> InsertTransferRecord(InsertTransferRequestDto req);
 
 
     }

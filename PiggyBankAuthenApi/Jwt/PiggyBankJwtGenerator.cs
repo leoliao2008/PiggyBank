@@ -25,7 +25,7 @@ namespace PiggyBankAuthenApi.Jwt
             JwtSecurityToken token = new JwtSecurityToken(
                 issuer: setup.Issuer,
                 audience: setup.Audience,
-                expires: DateTime.Now.AddDays(1),
+                expires: DateTime.Now.AddDays(30),
                 claims: claims,
                 signingCredentials: credentials
                 );

@@ -1,12 +1,12 @@
-﻿using CommonLib.Utils;
+﻿using System.Text;
+using CommonLib.Utils;
 using Contract.Dtos;
 using Contracts.Dtos;
+using Contracts.Request;
 using Dapper;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Options;
 using PiggyBankAuthenApi.Extentions;
-using System.Numerics;
-using System.Text;
 
 namespace PiggyBankAuthenApi.Db
 {
@@ -174,17 +174,17 @@ namespace PiggyBankAuthenApi.Db
                 throw new Exception("Update Fails: Phone Number or User Name or Email Already Taken by Other Users");
             }
 
-             cmd = """
-                   UPDATE "UserTable" 
-                   SET UserName =@userName,
-                       PhoneNumber =@phoneNumber,
-                       Email =@email,
-                       Gender =@gender,
-                       AvatarUrl =@avatarUrl,
-                       LastUpdateTime =@lastUpdateTime
-                   WHERE 
-                       Id =@id AND IsDeleted=0
-                """;
+            cmd = """
+                      UPDATE "UserTable" 
+                      SET UserName =@userName,
+                          PhoneNumber =@phoneNumber,
+                          Email =@email,
+                          Gender =@gender,
+                          AvatarUrl =@avatarUrl,
+                          LastUpdateTime =@lastUpdateTime
+                      WHERE 
+                          Id =@id AND IsDeleted=0
+                   """;
             int rowsEffected = await con.ExecuteAsync(
                 cmd, new
                 {
@@ -199,7 +199,7 @@ namespace PiggyBankAuthenApi.Db
             return rowsEffected > 0;
         }
 
-        public async Task<bool> checkIfNameExsit(string name)
+        public async Task<bool> CheckIfNameExist(string name)
         {
             using SqlConnection con = CreateConnection();
             StringBuilder sb = new StringBuilder();
@@ -218,7 +218,7 @@ namespace PiggyBankAuthenApi.Db
             }
         }
 
-        public async Task<bool> checkIfCellphoneExsit(string phone)
+        public async Task<bool> CheckIfCellphoneExist(string phone)
         {
             using SqlConnection con = CreateConnection();
             StringBuilder sb = new StringBuilder();
@@ -237,7 +237,7 @@ namespace PiggyBankAuthenApi.Db
             }
         }
 
-        public async Task<bool> checkIfEmailExsit(string email)
+        public async Task<bool> CheckIfEmailExist(string email)
         {
             using SqlConnection con = CreateConnection();
             StringBuilder sb = new StringBuilder();
@@ -254,6 +254,46 @@ namespace PiggyBankAuthenApi.Db
             {
                 return false;
             }
+        }
+
+        public async Task<TransferEntity> AddTransferAsync(InsertTransferRequestDto dto)
+        {
+            await using var con = CreateConnection();
+            var now = DateTime.UtcNow;
+            var entity = new TransferEntity
+            {
+                UserId = dto.UserId,
+                Subject = dto.Subject,
+                Amount = dto.Amount,
+                Direction = dto.Direction,
+                Comment = dto.Comment,
+                PicUrl = dto.PicUrl,
+                CreateDate = now,
+                LastUpdateTime = now
+            };
+            const string cmd = """
+                                   INSERT INTO "TransferRecordsTable"
+                                       (UserId,
+                                        Subject,
+                                        Amount,
+                                        Direction,
+                                        Comment,
+                                        PicUrl,
+                                        CreateData,
+                                        LastUpdateTime)
+                                   OUTPUT INSERTED.Id
+                                   VALUES 
+                                       (@UserId,
+                                        @Subject,
+                                        @Amount,
+                                        @Direction,
+                                        @Comment,
+                                        @PicUrl, 
+                                        @CreateDate,
+                                        @LastUpdateTime);
+                                """;
+            entity.Id = await con.ExecuteScalarAsync<int>(cmd, entity);
+            return entity;
         }
     }
 }

@@ -1,9 +1,9 @@
 ﻿using CommonLib.Utils;
 using Contract.Dtos;
 using Contracts.Dtos;
+using Contracts.Request;
 using Contracts.Responses;
 using Contracts.Responses.Dtos;
-using Microsoft.AspNetCore.Http.HttpResults;
 using PiggyBankAuthenApi.Db;
 using PiggyBankAuthenApi.Extentions;
 using PiggyBankAuthenApi.Jwt;
@@ -96,7 +96,8 @@ namespace PiggyBankAuthenApi.Services
         public async Task<BaseResponse> CheckIfNameExist(string name)
         {
             BaseResponse response = new BaseResponse();
-            if (await db.checkIfNameExist(name))
+            var isExist = await db.CheckIfNameExist(name);
+            if (isExist == true)
             {
                 response.IsSuccess = false;
                 response.Code = 501;
@@ -114,7 +115,7 @@ namespace PiggyBankAuthenApi.Services
         public async Task<BaseResponse> CheckIfEmailExist(string email)
         {
             BaseResponse response = new BaseResponse();
-            if (await db.checkIfEmailExist(email))
+            if (await db.CheckIfEmailExist(email))
             {
                 response.IsSuccess = false;
                 response.Code = 501;
@@ -133,7 +134,7 @@ namespace PiggyBankAuthenApi.Services
         public async Task<BaseResponse> CheckIfCellphoneExist(string cellphone)
         {
             BaseResponse response = new BaseResponse();
-            if (await db.checkIfCellphoneExist(cellphone))
+            if (await db.CheckIfCellphoneExist(cellphone))
             {
                 response.IsSuccess = false;
                 response.Code = 501;
@@ -146,6 +147,39 @@ namespace PiggyBankAuthenApi.Services
                 response.Message = "OK";
             }
 
+            return response;
+        }
+
+        public async Task<InsertTransferRecordResponse> InsertTransferRecord(InsertTransferRequestDto req)
+        {
+            var response = new InsertTransferRecordResponse();
+            try
+            {
+                var entity = await db.AddTransferRecord(req);
+                var data = new InsertTransferResponseData
+                {
+                    Id = entity.Id,
+                    UserId = entity.UserId,
+                    Subject = entity.Subject,
+                    Direction = entity.Direction,
+                    Amount = entity.Amount,
+                    Comment = entity.Comment,
+                    PicUrl = entity.PicUrl,
+                    CreateDate = entity.CreateDate,
+                    LastUpdateTime = entity.LastUpdateTime
+                };
+                response.IsSuccess = true;
+                response.Code = 200;
+                response.Message = "OK";
+                response.Data = data;
+            }
+            catch (Exception ex)
+            {
+                response.IsSuccess = false;
+                response.Code = 400;
+                response.Message = ex.Message;
+                response.Data = null;
+            }
             return response;
         }
     }

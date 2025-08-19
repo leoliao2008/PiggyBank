@@ -1,24 +1,20 @@
 ﻿using Contract.Dtos;
 using Contracts.Dtos;
-using Microsoft.Data.SqlClient;
-using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
-using PiggyBankAuthenApi.Extentions;
+using Contracts.Request;
+using Contracts.Responses.Dtos;
 
 namespace PiggyBankAuthenApi.Db
 {
     public class PiggyBankDbContext(IUserManager userManager) : IDbContext
     {
-
         public async Task<PiggyBankUserEntity> Insert(UserRegisterRequestDto dto)
         {
-          
             return await userManager.CreateUserAsync(dto);
         }
 
         public async Task<PiggyBankUserEntity> GetUserByNameAndPasswordAsync(string name, string password)
         {
-            return await userManager.FindUserByNameAndPasswordAsync(name,password);
+            return await userManager.FindUserByNameAndPasswordAsync(name, password);
         }
 
         public async Task<bool> Update(UserUpdateRequestDto dto)
@@ -26,19 +22,25 @@ namespace PiggyBankAuthenApi.Db
             return await userManager.UpdateUser(dto);
         }
 
-        public async Task<bool> checkIfNameExist(string name)
+        public async Task<bool> CheckIfNameExist(string name)
         {
-            return await userManager.checkIfNameExsit(name);
+            var isExist = await userManager.CheckIfNameExist(name);
+            return isExist;
         }
 
-        public async Task<bool> checkIfCellphoneExist(string cellphone)
+        public async Task<bool> CheckIfCellphoneExist(string cellphone)
         {
-            return await userManager.checkIfCellphoneExsit(cellphone);
+            return await userManager.CheckIfCellphoneExist(cellphone);
         }
 
-        public async Task<bool> checkIfEmailExist(string email)
+        public async Task<bool> CheckIfEmailExist(string email)
         {
-            return await userManager.checkIfEmailExsit(email);
+            return await userManager.CheckIfEmailExist(email);
+        }
+
+        public async Task<TransferEntity> AddTransferRecord(InsertTransferRequestDto dto)
+        {
+            return await userManager.AddTransferAsync(dto);
         }
     }
 }

@@ -1,5 +1,7 @@
 ﻿using Contract.Dtos;
 using Contracts.Dtos;
+using Contracts.Request;
+using Contracts.Responses.Dtos;
 
 namespace PiggyBankAuthenApi.Db
 {
@@ -11,10 +13,12 @@ namespace PiggyBankAuthenApi.Db
 
         public Task<bool> Update(UserUpdateRequestDto dto);
 
-        public Task<bool> checkIfNameExist(string name);
+        public Task<bool> CheckIfNameExist(string name);
 
-        public Task<bool> checkIfCellphoneExist(string cellphone);
+        public Task<bool> CheckIfCellphoneExist(string cellphone);
 
-        public Task<bool> checkIfEmailExist(string email);
+        public Task<bool> CheckIfEmailExist(string email);
+
+        public Task<TransferEntity> AddTransferRecord(InsertTransferRequestDto dto);
     }
 }
