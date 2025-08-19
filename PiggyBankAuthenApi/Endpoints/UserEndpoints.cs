@@ -48,7 +48,7 @@ namespace PiggyBankAuthenApi.Endpoints
                 });
             app.MapPost("newTransferRecord",
                 async (InsertTransferRequestDto dto, IUserService userService) =>
-                    await userService.InsertTransferRecord(dto));
+                    await userService.InsertTransferRecord(dto)).RequireAuthorization();
         }
     }
 }
