@@ -166,7 +166,8 @@ namespace PiggyBankAuthenApi.Services
                     Comment = entity.Comment,
                     PicUrl = entity.PicUrl,
                     CreateDate = entity.CreateDate,
-                    LastUpdateTime = entity.LastUpdateTime
+                    LastUpdateTime = entity.LastUpdateTime,
+                    TransferDate = entity.TransferDate
                 };
                 response.IsSuccess = true;
                 response.Code = 200;

@@ -22,5 +22,7 @@
         public DateTime CreateDate { get; set; }
         public DateTime LastUpdateTime { get; set; }
         
+        public DateTime TransferDate { get; set; }
+        
     }
 }

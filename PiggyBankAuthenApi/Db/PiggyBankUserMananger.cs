@@ -260,6 +260,7 @@ namespace PiggyBankAuthenApi.Db
         {
             await using var con = CreateConnection();
             var now = DateTime.UtcNow;
+            
             var entity = new TransferEntity
             {
                 UserId = dto.UserId,
@@ -269,7 +270,8 @@ namespace PiggyBankAuthenApi.Db
                 Comment = dto.Comment,
                 PicUrl = dto.PicUrl,
                 CreateDate = now,
-                LastUpdateTime = now
+                LastUpdateTime = now,
+                TransferDate = DateTimeOffset.FromUnixTimeMilliseconds(dto.TransferDate).LocalDateTime
             };
             const string cmd = """
                                    INSERT INTO "TransferRecordsTable"
@@ -280,7 +282,8 @@ namespace PiggyBankAuthenApi.Db
                                         Comment,
                                         PicUrl,
                                         CreateData,
-                                        LastUpdateTime)
+                                        LastUpdateTime,
+                                        TransferDate)
                                    OUTPUT INSERTED.Id
                                    VALUES 
                                        (@UserId,
@@ -290,7 +293,8 @@ namespace PiggyBankAuthenApi.Db
                                         @Comment,
                                         @PicUrl, 
                                         @CreateDate,
-                                        @LastUpdateTime);
+                                        @LastUpdateTime,
+                                        @TransferDate);
                                 """;
             entity.Id = await con.ExecuteScalarAsync<int>(cmd, entity);
             return entity;

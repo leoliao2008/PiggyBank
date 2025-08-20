@@ -8,4 +8,6 @@ public class InsertTransferRequestDto
     public int Direction { get; set; }
     public string Comment { get; set; } = "";
     public string PicUrl { get; set; } = "";
+
+    public long TransferDate { get; set; }
 }
